@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const blogRoutes = require('./routes/blogRoutes');
 const mongoose = require("mongoose");
+const helmet = require('helmet');
+const compression = require('compression');
 
 require('dotenv').config();
 
@@ -16,6 +18,9 @@ app.use((req, res, next) => {
   });
 app.use(express.json());
 app.use(blogRoutes);
+app.use(helmet());
+app.use(compression());
+
 const URI =`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.mnxfnkh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 mongoose.connect(
     URI
