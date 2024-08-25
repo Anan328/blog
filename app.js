@@ -3,6 +3,8 @@ const app = express();
 const blogRoutes = require('./routes/blogRoutes');
 const mongoose = require("mongoose");
 
+require('dotenv').config();
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -14,10 +16,10 @@ app.use((req, res, next) => {
   });
 app.use(express.json());
 app.use(blogRoutes);
-
+const URI =`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.mnxfnkh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 mongoose.connect(
-    "mongodb+srv://anan:04password@cluster0.mnxfnkh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    URI
 ).then((result)=>{
-    app.listen(8000);
+    app.listen(process.env.PORT||8000);
     console.log("connected to server");
 })
